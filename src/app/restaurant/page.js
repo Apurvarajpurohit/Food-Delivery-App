@@ -1,32 +1,31 @@
 'use client'
-import { useState } from "react"
-import '../style.css';
-import RestaurantFooter from "../_components/RestaurantFooter"
+import { useState } from "react";
 import RestaurantHeader from "../_components/RestaurantHeader";
-import RestaurantLogin from "../_components/RestaurantLogin";
-import RestaurantSignUp from "../_components/RestaurantSignUp";
+import Footer from "../_components/Footer";
+import './style.css'
+import RestaurantLogin from "../_components/restaurantLogin";
+import RestaurantSignUp from "../_components/restaurantSignUp";
+
 const Restaurant = () => {
     const [login, setLogin] = useState(true)
-    const { NEXT_PUBLIC_USERNAME, NEXT_PUBLIC_PASSWORD } = process.env;
-    console.log(NEXT_PUBLIC_USERNAME, NEXT_PUBLIC_PASSWORD, 'hello');
     return (
+        <>
         <div className="container">
-            <RestaurantHeader/>
-            {login ?
-                <RestaurantLogin/>
-
-                : <RestaurantSignUp/>
+            <RestaurantHeader />
+            <h1>Restaurant Login/Signup Page</h1>
+            {
+                login ? <RestaurantLogin /> : <RestaurantSignUp />
             }
+
             <div>
                 <button className="button-link" onClick={() => setLogin(!login)}>
-                    {login ?
-                        "Do not have Account? Signup" :
-                        "Already have Account?login"
-                    }
+                    {login ? "Do not have account? SignUp" : "Already have Account? Login"}
                 </button>
             </div>
-            <RestaurantFooter/>
-        </div>
+            </div>
+            <Footer />
+        </>
     )
 }
-export default Restaurant
+
+export default Restaurant;

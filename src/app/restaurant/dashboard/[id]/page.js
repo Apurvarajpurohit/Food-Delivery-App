@@ -1,41 +1,58 @@
-import { useState } from "react";
+'use client'
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
-const AddFoodItems = (props) => {
+const EditFoodItems = (props) => {
+
+    console.log(props.params.id);
     const [name, setName] = useState("");
     const [price, setPrice] = useState("");
     const [path, setPath] = useState("");
     const [description, setDescription] = useState("");
-    const [error,setError]=useState(false)
+    const [error, setError] = useState(false)
+    const router = useRouter();
 
-    const handleAddFoodItem = async () => {
-        console.log(name, price, path, description);
-        if(!name || !path || !price || !description){
-            setError(true);
-            return false
-        }else{
-            setError(false)
-        }
-        let resto_id;
-        const restaurantData = JSON.parse(localStorage.getItem("restaurantUser"));
-        if (restaurantData) {
-            resto_id = restaurantData._id
-        }
-        let response = await fetch("http://localhost:3000/api/restaurant/foods", {
-            method: "POST",
-            body: JSON.stringify({ name, price, img_path: path, description, resto_id })
-        });
+    useEffect(() => {
+        handleLoadFoodItem();
+    }, [])
+
+    const handleLoadFoodItem = async () => {
+        let response = await fetch("http://localhost:3000/api/restaurant/foods/edit/" + props.params.id);
         response = await response.json();
         if (response.success) {
-            alert("Food item added")
-            props.setAddItem(false)
-        }else{
-            alert("Food item not added")
+            console.log(response.result);
+            setName(response.result.name)
+            setPrice(response.result.price)
+            setPath(response.result.img_path)
+            setDescription(response.result.description)
         }
+    }
+
+    const handleEditFoodItem = async () => {
+        console.log(name, price, path, description);
+        if (!name || !path || !price || !description) {
+            setError(true);
+            return false
+        } else {
+            setError(false)
+        }
+
+        let response = await fetch("http://localhost:3000/api/restaurant/foods/edit/" + props.params.id,{
+            method:'PUT',
+            body:JSON.stringify({name,price,img_path:path,description})
+        });
+        response = await response.json();
+        if(response.success){
+            router.push('../dashboard')
+        }else{
+            alert("data is not updated please try again")
+        }
+
 
     }
 
     return (<div className="container">
-        <h1>Add New Food Item</h1>
+        <h1> Update Food Item</h1>
         <div className="input-wrapper">
             <input type="text" className="input-field" placeholder="Enter food name"
                 value={name} onChange={(e) => setName(e.target.value)}
@@ -64,9 +81,12 @@ const AddFoodItems = (props) => {
 
         </div>
         <div className="input-wrapper">
-            <button className="button" onClick={handleAddFoodItem}>Add Food Item</button>
+            <button className="button" onClick={handleEditFoodItem}>Update Food Item</button>
+        </div>
+        <div className="input-wrapper">
+            <button className="button" onClick={() => router.push('../dashboard')}>Back to Food Item list</button>
         </div>
     </div>)
 }
 
-export default AddFoodItems;
+export default EditFoodItems;
