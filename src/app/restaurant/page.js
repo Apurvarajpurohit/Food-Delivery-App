@@ -14,7 +14,7 @@ const Restaurant = () => {
             <RestaurantHeader />
             <h1>Restaurant Login/Signup Page</h1>
             {
-                login ? <RestaurantLogin /> : <RestaurantSignUp />
+                login ? <RestaurantLoginn/> : <RestaurantSignUp />
             }
 
             <div>
