@@ -1,6 +1,6 @@
 import { connectionStr } from "@/app/lib/db";
 import { orderSchema } from "@/app/lib/ordersMode";
-import { restaurantSchema } from "@/app/lib/restaurantsModel";
+import { restaurantSchema } from "@/app/lib/RestaurantsModel";
 import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 
