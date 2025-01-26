@@ -68,7 +68,7 @@ const Page = (props) => {
                                 <div className="description">{item.description}</div>
                                 {
                                     cartIds.includes(item._id) ?
-                                        <button  onClick={()=>removeFromCart(item._id)} >Remove From Cart</button>
+                                        <></>
                                         : <button onClick={() => addToCart(item)}>Add to Cart</button>
 
                                 }
